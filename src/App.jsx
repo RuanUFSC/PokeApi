@@ -1,29 +1,8 @@
 import './App.css'
 import { useState } from 'react'
 
-function PokemonInfo({ pokemon }) {
-  return (
-    <div>
-      <h2>{pokemon.name}</h2>
-      <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-      <p>Altura: {pokemon.height}</p>
-      <p>Peso: {pokemon.weight}</p>
-    </div>
-  );
-}
-
-function PokemonHistory({ listaDePokemons }) {
-  return (
-    <div>
-      <h2>Últimas pesquisas</h2>
-      {listaDePokemons.map((pokemon) => {
-        return <img src={pokemon.sprites.front_default} alt={pokemon.name} />          
-      })}     
-    </div>
-  );
-}
-
 function PokemonSearch() {
+  
   const [pokemonName, setPokemonName] = useState("");
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonList, setPokemonList] = useState([]);
@@ -59,8 +38,22 @@ function PokemonSearch() {
         <button type="submit">Consultar</button>
       </form>
       {/* pokemonData && condiciona a renderização do componente de info a existencia de data */}
-      {pokemonData && <PokemonInfo pokemon={pokemonData} />}
-      {pokemonList.length > 0 && <PokemonHistory listaDePokemons={pokemonList} />}
+      {pokemonData && 
+        <div>
+          <h2>{pokemonData.name}</h2>
+          <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
+          <p>Altura: {pokemonData.height}</p>
+          <p>Peso: {pokemonData.weight}</p>
+        </div>
+      }
+      {pokemonList.length > 0 && 
+        <div>
+          <h2>Últimas pesquisas</h2>
+          {pokemonList.map((pokemon) => {
+            return <img src={pokemon.sprites.front_default} alt={pokemon.name} />          
+          })}     
+        </div>
+      }
     </div>
   );
 }
