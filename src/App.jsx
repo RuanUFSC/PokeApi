@@ -2,7 +2,7 @@ import './App.css'
 import { useState } from 'react'
 
 function PokemonSearch() {
-  
+
   const [pokemonName, setPokemonName] = useState("");
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonList, setPokemonList] = useState([]);
@@ -44,14 +44,6 @@ function PokemonSearch() {
           <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
           <p>Altura: {pokemonData.height}</p>
           <p>Peso: {pokemonData.weight}</p>
-        </div>
-      }
-      {pokemonList.length > 0 && 
-        <div>
-          <h2>Últimas pesquisas</h2>
-          {pokemonList.map((pokemon) => {
-            return <img src={pokemon.sprites.front_default} alt={pokemon.name} />          
-          })}     
         </div>
       }
     </div>
