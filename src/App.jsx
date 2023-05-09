@@ -1,35 +1,76 @@
 import './App.css'
 import { useState } from 'react'
 
-function App() {
-  const [nome, setNome] = useState('André')
-  const [times, setTimes] = useState([])
-  const [filme, setFilme] = useState({ titulo: 'Vingadores', anoLancamento: 2019 })
-  const nomes = ['João', 'José', 'Josnei', 'Jorge', 'Junior']
+function PokemonInfo({ pokemon }) {
+  return (
+    <div>
+      <h2>{pokemon.name}</h2>
+      <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+      <p>Altura: {pokemon.height}</p>
+      <p>Peso: {pokemon.weight}</p>
+    </div>
+  );
+}
 
-  const trocarDeNome = () => {
-    setNome('Richarlison')
-  }
+function PokemonHistory({ listaDePokemons }) {
+  return (
+    <div>
+      <h2>Últimas pesquisas</h2>
+      {listaDePokemons.map((pokemon) => {
+        return <img src={pokemon.sprites.front_default} alt={pokemon.name} />          
+      })}     
+    </div>
+  );
+}
 
-  const trocarDeFilme = () => {
-    setFilme({titulo: 'Cavaleiros do Zodíaco', anoLancamento: 2002 })
-  }
+function PokemonSearch() {
+  const [pokemonName, setPokemonName] = useState("");
+  const [pokemonData, setPokemonData] = useState(null);
+  const [pokemonList, setPokemonList] = useState([]);
+
+  const envioFormulario = async (event) => {
+    event.preventDefault();
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setPokemonData(data)
+      let lista = [];
+      if(pokemonList.length > 0) {  
+        lista = pokemonList;
+        lista.unshift(data);
+        setPokemonList(lista);
+      } else {
+        lista.unshift(data);
+        setPokemonList(lista);
+      }
+    })
+
+  };
 
   return (
     <div>
-      <h1>Trocar de nome</h1>
-      <h3>{nome}</h3>
-      <button onClick={trocarDeNome}>Clique aqui</button>
-      <h1>{filme.titulo}</h1>
-      <h3>{filme.anoLancamento}</h3>
-      <button onClick={trocarDeFilme}>Clique aqui</button>
-      <h2>Lista de nomes</h2>
-      <ul>
-        {nomes.map((nome, index) => {
-          return <li key={index}>Nome {index+1}: {nome}</li>
-        })}
-      </ul>
+      <form onSubmit={envioFormulario}>
+        <input
+          type="text"
+          value={pokemonName}
+          onChange={(event) => setPokemonName(event.target.value)}
+          placeholder="Digite um nome ou número de Pokemon"
+        />
+        <button type="submit">Consultar</button>
+      </form>
+      {/* pokemonData && condiciona a renderização do componente de info a existencia de data */}
+      {pokemonData && <PokemonInfo pokemon={pokemonData} />}
+      {pokemonList.length > 0 && <PokemonHistory listaDePokemons={pokemonList} />}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <h1>Consulta de Pokemons</h1>
+      <PokemonSearch />   
+    </>
   )
 }
 
