@@ -38,12 +38,12 @@ function PokemonSearch() {
         <button type="submit">Consultar</button>
       </form>
       {/* pokemonData && condiciona a renderização do componente de info a existencia de data */}
-      {pokemonData && 
+      {
         <div>
-          <h2>{pokemonData.name}</h2>
-          <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
-          <p>Altura: {pokemonData.height}</p>
-          <p>Peso: {pokemonData.weight}</p>
+          <h2>{pokemonData?.name}</h2>
+          <img src={pokemonData?.sprites.front_default} alt={pokemonData?.name} />
+          <p>Altura: {pokemonData?.height}</p>
+          <p>Peso: {pokemonData?.weight}</p>
         </div>
       }
     </div>
