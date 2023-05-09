@@ -3,36 +3,45 @@ import { useState } from 'react'
 
 function PokemonSearch() {
 
-  const [pokemonName, setPokemonName] = useState("");
-  const [pokemonData, setPokemonData] = useState(null);
+  const [pikachu, setPikachu] = useState(null);
+  const [charizard, setCharizard] = useState(null);
 
-  const envioFormulario = async (event) => {
-    event.preventDefault();
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+  const buscaPokemons = async () => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/pikachu/`)
     .then((response) => response.json())
     .then((data) => {
-      setPokemonData(data)
+      setPikachu(data)
     })
-  };
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/charizard/`)
+    .then((response) => response.json())
+    .then((data) => {
+      setCharizard(data)
+    })
+  }
+
+  buscaPokemons();
 
   return (
-    <div>
-      <form onSubmit={envioFormulario}>
-        <input
-          type="text"
-          value={pokemonName}
-          onChange={(event) => setPokemonName(event.target.value)}
-          placeholder="Digite um nome ou número de Pokemon"
-        />
-        <button type="submit">Consultar</button>
-      </form>
-        <div>
-          <h2>{pokemonData?.name}</h2>
-          <img src={pokemonData?.sprites.front_default} alt={pokemonData?.name} />
-          <p>Altura: {pokemonData?.height}</p>
-          <p>Peso: {pokemonData?.weight}</p>
-        </div>
-    </div>
+    <>
+      {/* <button onClick={buscaPokemons}>Buscar Pokemons</button> */}
+      <div>
+          <div>
+            <h2>{pikachu?.name}</h2>
+            <img src={pikachu?.sprites.front_default} alt={pikachu?.name} />
+            <p>Altura: {pikachu?.height}</p>
+            <p>Peso: {pikachu?.weight}</p>
+          </div>
+      </div>
+      <div>
+          <div>
+            <h2>{charizard?.name}</h2>
+            <img src={charizard?.sprites.front_default} alt={charizard?.name} />
+            <p>Altura: {charizard?.height}</p>
+            <p>Peso: {charizard?.weight}</p>
+          </div>
+      </div>
+    </>
   );
 }
 
